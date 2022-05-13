@@ -1,0 +1,24 @@
+<header class="main-header">
+  <img class="main-header__brand" [src]="brandImage" alt="GEOSATIS" />
+  <div class="main-header__items">
+    <span *ngIf="today$ | async as today">{{ today | dateTime }}</span>
+    <span
+      class="main-header__items--user"
+      mat-button
+      [matMenuTriggerFor]="userMenu"
+    >
+      <mat-icon> person </mat-icon>
+      <span>admin</span>
+      <mat-icon> expand_more </mat-icon>
+    </span>
+    <mat-menu #userMenu="matMenu">
+      <button
+        mat-menu-item
+        *ngFor="let timezone of timeZoneService.timeZones"
+        (click)="timeZoneService.selectedTimeZone = timezone"
+      >
+        {{ timezone }}
+      </button>
+    </mat-menu>
+  </div>
+</header>

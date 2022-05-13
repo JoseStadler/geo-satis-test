@@ -1,0 +1,14 @@
+<nav class="side-nav">
+  <ul class="side-nav__items">
+    <li *ngFor="let menu of menus" class="side-nav__item">
+      <mat-icon
+        aria-hidden="false"
+        [attr.aria-label]="menu.name"
+        [routerLink]="[menu.url]"
+        routerLinkActive="active"
+      >
+        {{ menu.icon }}
+      </mat-icon>
+    </li>
+  </ul>
+</nav>

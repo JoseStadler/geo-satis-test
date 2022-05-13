@@ -1,0 +1,24 @@
+@use "/src/assets/styles/variables" as colors;
+.main-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: colors.$nav-background;
+  &__brand {
+    padding: 10px 0;
+  }
+  &__items {
+    display: flex;
+    align-items: center;
+    color: colors.$grey;
+    &--user {
+      display: flex;
+      align-items: center;
+      margin-left: 40px;
+      cursor: pointer;
+      span {
+        padding: 0 15px;
+      }
+    }
+  }
+}
