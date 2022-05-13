@@ -7,6 +7,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { LayoutModule } from 'src/app/shared/components/layout/layout.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { OffenderComponent } from './components/offender/offender.component';
 import { OffendersMapComponent } from './components/offenders-map/offenders-map.component';
 import { OffendersRoutingModule } from './offenders-routing.module';
@@ -17,6 +18,7 @@ import { offendersReducer } from './store/offenders.reducer';
 @NgModule({
   declarations: [OffendersComponent, OffendersMapComponent, OffenderComponent],
   imports: [
+    SharedModule,
     CommonModule,
     OffendersRoutingModule,
     LayoutModule,

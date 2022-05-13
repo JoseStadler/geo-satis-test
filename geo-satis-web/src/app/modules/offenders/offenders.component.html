@@ -9,10 +9,20 @@
   </section>
   <section class="offenders__list">
     <mat-spinner *ngIf="loading$ | async" class="loader"></mat-spinner>
-    <app-offender
-      *ngFor="let offender of offenders$ | async"
-      [offender]="offender"
-      (edit)="editOffender($event)"
-    ></app-offender>
+    <div class="offenders_items">
+      <app-offender
+        *ngFor="let offender of offenders$ | async"
+        [offender]="offender"
+        (edit)="editOffender($event)"
+      ></app-offender>
+    </div>
+    <div class="pagination">
+      <app-pagination
+        *ngIf="offendersPagedList$ | async as pagedData"
+        [totalPages]="pagedData.totalPages"
+        [page]="pagedData.number"
+        (pageChanged)="pageChanged($event)"
+      ></app-pagination>
+    </div>
   </section>
 </div>

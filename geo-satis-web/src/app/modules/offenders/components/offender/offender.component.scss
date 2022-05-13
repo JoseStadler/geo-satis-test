@@ -5,6 +5,7 @@
   align-items: center;
   padding: 0 20px;
   margin-right: 16px;
+  margin-bottom: 10px;
   background-color: colors.$light-grey;
   &__photo {
     mat-icon {
@@ -13,17 +14,18 @@
     }
   }
   &__details {
+    font-size: 12px;
     p {
       margin: 0;
       &:first-of-type {
-        margin-top: 16px;
+        margin-top: 10px;
       }
       &:last-of-type {
-        margin-bottom: 16px;
+        margin-bottom: 10px;
       }
     }
     .offender__name {
-      margin-bottom: 5px;
+      margin-bottom: 2px;
       color: grey;
       span {
         color: initial;

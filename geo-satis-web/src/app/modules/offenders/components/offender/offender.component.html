@@ -1,8 +1,16 @@
 <div class="offender">
   <div class="offender__photo">
-    <mat-icon aria-hidden="false" aria-label="Offender Picture">
-      account_circle
-    </mat-icon>
+    <img
+      *ngIf="offender?.picture; else icon"
+      [src]="offender?.picture"
+      alt="Offender Photo"
+      width="40px"
+    />
+    <ng-template #icon>
+      <mat-icon aria-hidden="false" aria-label="Offender Picture">
+        account_circle
+      </mat-icon>
+    </ng-template>
   </div>
   <div class="offender__details">
     <p class="offender__name">

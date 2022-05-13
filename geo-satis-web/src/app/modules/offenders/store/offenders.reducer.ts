@@ -13,6 +13,7 @@ import { OffendersActions } from './action-types';
 
 export interface OffendersState {
   offenders: PaginatedList<Offender>;
+  currentPage: number;
   loading: boolean;
 }
 
@@ -25,12 +26,19 @@ export const initialAuthState: OffendersState = {
     totalElements: 0,
     totalPages: 0,
   },
+  currentPage: 1,
   loading: false,
 };
 
 export const offendersReducer = createReducer(
   initialAuthState,
 
+  on(OffendersActions.getOffenders, (state) => {
+    return {
+      ...state,
+      offenders: { ...state.offenders, content: [] },
+    };
+  }),
   on(OffendersActions.getOffendersFinished, (state, action) => {
     return {
       ...state,
@@ -47,6 +55,12 @@ export const offendersReducer = createReducer(
     return {
       ...state,
       loading: false,
+    };
+  }),
+  on(OffendersActions.changeOffendersPage, (state, action) => {
+    return {
+      ...state,
+      currentPage: action.page,
     };
   })
 );

@@ -17,3 +17,8 @@ export const loadingStarted = createAction('[Offenders Page] loading started');
 export const loadingFinished = createAction(
   '[Offenders Page] loading finished'
 );
+
+export const changeOffendersPage = createAction(
+  '[Offenders Page] Current page changed',
+  props<{ page: number }>()
+);

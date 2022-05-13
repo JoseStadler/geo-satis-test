@@ -15,8 +15,8 @@ export const offendersList = createSelector(
 );
 
 export const offendersCurrentPage = createSelector(
-  offendersPagedList,
-  (offenders) => offenders.number
+  selectOffendersState,
+  (state) => state.currentPage
 );
 
 export const offendersPageSize = createSelector(

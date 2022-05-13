@@ -28,6 +28,34 @@ export class OffendersEffects {
               id: 1,
               picture: '',
             },
+            {
+              lastName: 'Pierre',
+              firstName: 'Dupont',
+              position: { latitude: -42.8999, longitude: 4.6446 },
+              id: 1,
+              picture: '',
+            },
+            {
+              lastName: 'Pierre',
+              firstName: 'Dupont',
+              position: { latitude: -42.8999, longitude: 4.6446 },
+              id: 1,
+              picture: '',
+            },
+            {
+              lastName: 'Pierre',
+              firstName: 'Dupont',
+              position: { latitude: -42.8999, longitude: 4.6446 },
+              id: 1,
+              picture: '',
+            },
+            {
+              lastName: 'Pierre',
+              firstName: 'Dupont',
+              position: { latitude: -42.8999, longitude: 4.6446 },
+              id: 1,
+              picture: '',
+            },
           ],
           number: currentPage,
           numberOfElements: 0,
@@ -40,6 +68,13 @@ export class OffendersEffects {
         OffendersActions.getOffendersFinished(offendersList)
       ),
       tap(() => this.store.dispatch(OffendersActions.loadingFinished()))
+    )
+  );
+
+  pageChanged$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(OffendersActions.changeOffendersPage),
+      map(() => OffendersActions.getOffenders())
     )
   );
 

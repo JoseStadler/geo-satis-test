@@ -3,6 +3,6 @@ export interface Offender {
   firstName: string;
   lastName: string;
   position: { latitude: number; longitude: number };
-  picture: File | string | Blob;
+  picture?: File | string | Blob;
   birthDate?: string;
 }
