@@ -1,27 +1,29 @@
 @use "/src/assets/styles/variables" as colors;
-.side-nav {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  background-color: colors.$nav-background;
-  width: fit-content;
-  height: 100vh;
-}
+@supports (display: grid) {
+  .side-nav {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    background-color: colors.$nav-background;
+    width: fit-content;
+    height: 100%;
+  }
 
-.side-nav__items {
-  list-style: none;
-  padding: 0;
-}
+  .side-nav__items {
+    list-style: none;
+    padding: 0;
+  }
 
-.side-nav__item {
-  mat-icon {
-    width: unset;
-    height: unset;
-    font-size: 2.5rem;
-    margin: 0 5px;
-    &.active {
-      color: colors.$primary;
-      border-bottom: 2px dashed;
+  .side-nav__item {
+    mat-icon {
+      width: unset;
+      height: unset;
+      font-size: 2.5rem;
+      margin: 0 5px;
+      &.active {
+        color: colors.$primary;
+        border-bottom: 2px dashed;
+      }
     }
   }
 }

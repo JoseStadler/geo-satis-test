@@ -1,6 +1,27 @@
-main {
-  display: flex;
-  app-side-nav {
-    margin-right: 16px;
+:host {
+  display: grid;
+  grid-template-rows: fit-content(3.5rem) auto;
+  grid-template-areas:
+    "header"
+    "main";
+  width: 100vw;
+  height: 100vh;
+
+  .main-header {
+    grid-area: header;
+  }
+  .main {
+    grid-area: main;
+    display: grid;
+    grid-template-columns: fit-content(3.5rem) auto;
+    grid-template-areas: "menu content";
+    gap: 16px;
+    &-nav {
+      grid: menu;
+    }
+    &-content {
+      grid: content;
+      padding-bottom: 16px;
+    }
   }
 }
