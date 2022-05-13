@@ -1,11 +1,18 @@
 <div class="offenders">
   <section class="offenders__actions">
-    <button mat-raised-button color="primary">+ New Offender</button>
+    <button (click)="addOffender()" mat-raised-button color="primary">
+      + New Offender
+    </button>
   </section>
   <section class="offenders__map">
     <app-offenders-map></app-offenders-map>
   </section>
   <section class="offenders__list">
-    <app-offender></app-offender>
+    <mat-spinner *ngIf="loading$ | async" class="loader"></mat-spinner>
+    <app-offender
+      *ngFor="let offender of offenders$ | async"
+      [offender]="offender"
+      (edit)="editOffender($event)"
+    ></app-offender>
   </section>
 </div>

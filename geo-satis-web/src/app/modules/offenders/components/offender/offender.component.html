@@ -5,16 +5,25 @@
     </mat-icon>
   </div>
   <div class="offender__details">
-    <p class="offender__name">Last name: <span>Pierre</span></p>
-    <p class="offender__name">First name: <span>Dupont</span></p>
-    <p>Latitude: <span>-42.8999</span></p>
-    <p>Longitude: <span>4.6446</span></p>
+    <p class="offender__name">
+      Last name: <span>{{ offender?.lastName }}</span>
+    </p>
+    <p class="offender__name">
+      First name: <span>{{ offender?.firstName }}</span>
+    </p>
+    <p>
+      Latitude: <span>{{ offender?.position?.latitude }}</span>
+    </p>
+    <p>
+      Longitude: <span>{{ offender?.position?.longitude }}</span>
+    </p>
   </div>
   <div class="offender__actions">
     <mat-icon
       class="offender__action"
       aria-hidden="false"
       aria-label="Offender Picture"
+      (click)="editOffender()"
     >
       edit
     </mat-icon>
