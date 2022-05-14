@@ -22,3 +22,12 @@ export const changeOffendersPage = createAction(
   '[Offenders Page] Current page changed',
   props<{ page: number }>()
 );
+
+export const saveNewOffender = createAction(
+  '[Offenders Page] Save new Offender'
+);
+
+export const updateOffender = createAction(
+  '[Offenders Page] update Offender',
+  props<Offender>()
+);

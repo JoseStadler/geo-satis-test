@@ -20,14 +20,9 @@ spring:
     encoding: UTF-8
     out-of-order: true
     schemas:
-      - administracion
-  servlet:
-    multipart:
-      max-file-size: 10MB
-      max-request-size: 10MB
+      - public
 
-medical:
-#  config:
-#    allowed-origins-authorized: 'http://localhost:4200,http://localhost:4300'
-#  file-system-path: '/Users/josestadler/Documents/medical'
-#  templates-path: '/Users/josestadler/Documents/proyectos/medical/medical-ws/src/main/resources/templates/'
+geoatis:
+  config:
+    allowed-origins-authorized: 'http://localhost:4200,http://localhost:4300'
+  file-system-path: '/Users/josestadler/Documents/Geo-Satis/profile-photos'

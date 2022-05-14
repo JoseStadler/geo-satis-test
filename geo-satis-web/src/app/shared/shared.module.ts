@@ -3,6 +3,8 @@ import { NgModule, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { RxStompService } from './rx-stomp/rx-stomp.service';
@@ -12,7 +14,13 @@ import { DateTimePipe } from './pipes/date-time.pipe';
 
 const components = [PaginationComponent];
 const pipes = [DateTimePipe];
-const materialModules = [MatInputModule, MatFormFieldModule];
+const materialModules = [
+  MatInputModule,
+  MatFormFieldModule,
+  MatDatepickerModule,
+  // MatMomentDateModule,
+  MatNativeDateModule,
+];
 
 @NgModule({
   declarations: [...pipes, ...components],

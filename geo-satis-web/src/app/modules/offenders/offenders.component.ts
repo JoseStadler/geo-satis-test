@@ -10,7 +10,9 @@ import {
 } from './store/offenders.selectors';
 import { Message } from '@stomp/stompjs';
 import { AddEditOffenderComponent } from './modals/add-edit-offender/add-edit-offender.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { filter, Observable } from 'rxjs';
+import { OffendersService } from './services/offenders.service';
 
 @Component({
   selector: 'app-offenders',
@@ -22,11 +24,7 @@ export class OffendersComponent implements OnInit {
   loading$ = this.store.select(loadingOffenders);
   offendersPagedList$ = this.store.select(offendersPagedList);
 
-  constructor(
-    private store: Store,
-    private rxStompService: RxStompService,
-    public dialog: MatDialog
-  ) {}
+  constructor(private store: Store, private rxStompService: RxStompService) {}
 
   ngOnInit() {
     this.store.dispatch(OffendersActions.getOffenders());
@@ -35,18 +33,6 @@ export class OffendersComponent implements OnInit {
       .subscribe((message: Message) => {
         console.log(message.body);
       });
-  }
-
-  addOffender() {
-    const dialogRef = this.dialog.open(AddEditOffenderComponent, {
-      width: '250px',
-      // data: {name: this.name, animal: this.animal},
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      // console.log('The dialog was closed');
-      // this.animal = result;
-    });
 
     // const message = `Message generated at ${new Date()}`;
     // this.rxStompService.publish({
@@ -55,7 +41,13 @@ export class OffendersComponent implements OnInit {
     // });
   }
 
-  editOffender(offender: Offender) {}
+  addOffender() {
+    this.store.dispatch(OffendersActions.saveNewOffender());
+  }
+
+  editOffender(offender: Offender) {
+    this.store.dispatch(OffendersActions.updateOffender(offender));
+  }
 
   pageChanged(page: number) {
     this.store.dispatch(OffendersActions.changeOffendersPage({ page }));

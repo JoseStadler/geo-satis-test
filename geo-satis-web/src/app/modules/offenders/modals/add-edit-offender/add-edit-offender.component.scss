@@ -4,6 +4,9 @@
   align-items: center;
 }
 .offender {
+  .mat-form-field {
+    width: 100%;
+  }
   &__location {
     display: flex;
     justify-content: space-between;
@@ -11,4 +14,7 @@
       width: 48%;
     }
   }
+}
+.mat-dialog-actions {
+  justify-content: flex-end;
 }

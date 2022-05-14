@@ -1,9 +1,10 @@
 import { RxStompConfig } from '@stomp/rx-stomp';
 import * as SockJS from 'sockjs-client';
+import { environment } from 'src/environments/environment';
 
 export const myRxStompConfig: RxStompConfig = {
   webSocketFactory: function () {
-    return new SockJS('http://localhost:8080/ws');
+    return new SockJS(environment.webSocketUrl);
   },
 
   heartbeatIncoming: 0, // Typical value 0 - disabled

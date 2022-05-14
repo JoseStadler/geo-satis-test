@@ -26,7 +26,7 @@ export const initialAuthState: OffendersState = {
     totalElements: 0,
     totalPages: 0,
   },
-  currentPage: 1,
+  currentPage: 0,
   loading: false,
 };
 

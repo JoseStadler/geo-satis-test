@@ -6,30 +6,87 @@
   <div class="offender" mat-dialog-content>
     <mat-form-field appearance="fill">
       <mat-label>First name</mat-label>
-      <input matInput formControlName="firstName" />
+      <input
+        id="offender-first-name"
+        type="text"
+        matInput
+        formControlName="firstName"
+      />
+      <mat-error *ngIf="form.get('firstName')?.hasError('required')">{{
+        errorMessages.required
+      }}</mat-error>
     </mat-form-field>
+
     <mat-form-field appearance="fill">
       <mat-label>Last name</mat-label>
-      <input matInput formControlName="lastName" />
+      <input
+        id="offender-last-name"
+        type="text"
+        matInput
+        formControlName="lastName"
+      />
+      <mat-error *ngIf="form.get('lastName')?.hasError('required')">{{
+        errorMessages.required
+      }}</mat-error>
     </mat-form-field>
+
     <mat-form-field appearance="fill">
       <mat-label>Birth date</mat-label>
-      <input matInput formControlName="birthDate" />
+      <input
+        id="offender-birth-date"
+        type="text"
+        matInput
+        [matDatepicker]="picker"
+        formControlName="birthDate"
+        [disabled]="true"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker disabled="false"></mat-datepicker>
     </mat-form-field>
+
     <p>Default home location</p>
+
     <div class="offender__location" formGroupName="position">
       <mat-form-field appearance="fill">
         <mat-label>Latitude</mat-label>
-        <input type="number" matInput formControlName="latitude" />
+        <input
+          id="offender-position-latitude"
+          type="number"
+          matInput
+          formControlName="latitude"
+        />
+        <mat-error
+          *ngIf="form.get('position')?.get('latitude')?.hasError('required')"
+          >{{ errorMessages.required }}</mat-error
+        >
       </mat-form-field>
+
       <mat-form-field appearance="fill">
         <mat-label>Longitude</mat-label>
-        <input type="number" matInput formControlName="longitude" />
+        <input
+          id="offender-position-longitude"
+          type="number"
+          matInput
+          formControlName="longitude"
+        />
+        <mat-error
+          *ngIf="form.get('position')?.get('longitude')?.hasError('required')"
+          >{{ errorMessages.required }}</mat-error
+        >
       </mat-form-field>
     </div>
   </div>
   <div mat-dialog-actions>
-    <button type="button" mat-button (click)="close()">No Thanks</button>
-    <button type="submit" mat-button cdkFocusInitial>Ok</button>
+    <button
+      id="offender-modal-cancel-btn"
+      type="button"
+      mat-button
+      (click)="close()"
+    >
+      No Thanks
+    </button>
+    <button id="offender-modal-ok-btn" type="submit" mat-button cdkFocusInitial>
+      Ok
+    </button>
   </div>
 </form>
