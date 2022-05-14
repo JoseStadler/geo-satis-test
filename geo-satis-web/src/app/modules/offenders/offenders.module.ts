@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDialogModule } from '@angular/material/dialog';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -14,9 +15,16 @@ import { OffendersRoutingModule } from './offenders-routing.module';
 import { OffendersComponent } from './offenders.component';
 import { OffendersEffects } from './store/offenders.effects';
 import { offendersReducer } from './store/offenders.reducer';
+import { AddEditOffenderComponent } from './modals/add-edit-offender/add-edit-offender.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [OffendersComponent, OffendersMapComponent, OffenderComponent],
+  declarations: [
+    OffendersComponent,
+    OffendersMapComponent,
+    OffenderComponent,
+    AddEditOffenderComponent,
+  ],
   imports: [
     SharedModule,
     CommonModule,
@@ -28,6 +36,8 @@ import { offendersReducer } from './store/offenders.reducer';
     StoreModule.forFeature('offenders', offendersReducer),
     EffectsModule.forFeature([OffendersEffects]),
     MatProgressSpinnerModule,
+    MatDialogModule,
+    ReactiveFormsModule,
   ],
   exports: [],
 })

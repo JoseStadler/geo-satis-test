@@ -1,0 +1,35 @@
+<form [formGroup]="form" (submit)="ok()">
+  <h1 mat-dialog-title>
+    <mat-icon aria-hidden="false" aria-label="Offender"> person </mat-icon>
+    New Offender
+  </h1>
+  <div class="offender" mat-dialog-content>
+    <mat-form-field appearance="fill">
+      <mat-label>First name</mat-label>
+      <input matInput formControlName="firstName" />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Last name</mat-label>
+      <input matInput formControlName="lastName" />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Birth date</mat-label>
+      <input matInput formControlName="birthDate" />
+    </mat-form-field>
+    <p>Default home location</p>
+    <div class="offender__location" formGroupName="position">
+      <mat-form-field appearance="fill">
+        <mat-label>Latitude</mat-label>
+        <input type="number" matInput formControlName="latitude" />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Longitude</mat-label>
+        <input type="number" matInput formControlName="longitude" />
+      </mat-form-field>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button type="button" mat-button (click)="close()">No Thanks</button>
+    <button type="submit" mat-button cdkFocusInitial>Ok</button>
+  </div>
+</form>

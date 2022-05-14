@@ -5,6 +5,7 @@ import { delay, first, map, switchMap, tap } from 'rxjs/operators';
 import { forkJoin, of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { offendersCurrentPage, offendersPageSize } from './offenders.selectors';
+import { RxStompService } from 'src/app/shared/rx-stomp/rx-stomp.service';
 
 @Injectable()
 export class OffendersEffects {
@@ -19,50 +20,55 @@ export class OffendersEffects {
         ])
       ),
       switchMap(([currentPage, size]) =>
-        of({
-          content: [
-            {
-              lastName: 'Pierre',
-              firstName: 'Dupont',
-              position: { latitude: -42.8999, longitude: 4.6446 },
-              id: 1,
-              picture: '',
-            },
-            {
-              lastName: 'Pierre',
-              firstName: 'Dupont',
-              position: { latitude: -42.8999, longitude: 4.6446 },
-              id: 1,
-              picture: '',
-            },
-            {
-              lastName: 'Pierre',
-              firstName: 'Dupont',
-              position: { latitude: -42.8999, longitude: 4.6446 },
-              id: 1,
-              picture: '',
-            },
-            {
-              lastName: 'Pierre',
-              firstName: 'Dupont',
-              position: { latitude: -42.8999, longitude: 4.6446 },
-              id: 1,
-              picture: '',
-            },
-            {
-              lastName: 'Pierre',
-              firstName: 'Dupont',
-              position: { latitude: -42.8999, longitude: 4.6446 },
-              id: 1,
-              picture: '',
-            },
-          ],
-          number: currentPage,
-          numberOfElements: 0,
-          size,
-          totalElements: 0,
-          totalPages: 0,
-        }).pipe(delay(2000))
+        this.rxStompService.watch('/ws-resp/greetings').pipe(
+          tap(console.log),
+          map(() => {
+            return {
+              content: [
+                {
+                  lastName: 'Pierre',
+                  firstName: 'Dupont',
+                  position: { latitude: -42.8999, longitude: 4.6446 },
+                  id: 1,
+                  picture: '',
+                },
+                {
+                  lastName: 'Pierre',
+                  firstName: 'Dupont',
+                  position: { latitude: -42.8999, longitude: 4.6446 },
+                  id: 1,
+                  picture: '',
+                },
+                {
+                  lastName: 'Pierre',
+                  firstName: 'Dupont',
+                  position: { latitude: -42.8999, longitude: 4.6446 },
+                  id: 1,
+                  picture: '',
+                },
+                {
+                  lastName: 'Pierre',
+                  firstName: 'Dupont',
+                  position: { latitude: -42.8999, longitude: 4.6446 },
+                  id: 1,
+                  picture: '',
+                },
+                {
+                  lastName: 'Pierre',
+                  firstName: 'Dupont',
+                  position: { latitude: -42.8999, longitude: 4.6446 },
+                  id: 1,
+                  picture: '',
+                },
+              ],
+              number: currentPage,
+              numberOfElements: 0,
+              size,
+              totalElements: 0,
+              totalPages: 0,
+            };
+          })
+        )
       ),
       map((offendersList) =>
         OffendersActions.getOffendersFinished(offendersList)
@@ -89,5 +95,9 @@ export class OffendersEffects {
   //         )
   // , {dispatch: false});
 
-  constructor(private actions$: Actions, private store: Store) {}
+  constructor(
+    private actions$: Actions,
+    private store: Store,
+    private rxStompService: RxStompService
+  ) {}
 }
