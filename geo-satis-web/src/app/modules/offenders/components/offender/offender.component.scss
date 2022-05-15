@@ -12,6 +12,11 @@
       font-size: 70px;
       color: colors.$primary;
     }
+    &--image {
+      width: 60px;
+      margin-left: 6px;
+      margin-right: -43px;
+    }
   }
   &__details {
     font-size: 12px;

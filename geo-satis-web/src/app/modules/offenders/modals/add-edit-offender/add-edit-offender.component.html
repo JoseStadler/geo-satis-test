@@ -38,10 +38,9 @@
         matInput
         [matDatepicker]="picker"
         formControlName="birthDate"
-        [disabled]="true"
       />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker disabled="false"></mat-datepicker>
+      <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
     <p>Default home location</p>
@@ -74,6 +73,32 @@
           >{{ errorMessages.required }}</mat-error
         >
       </mat-form-field>
+    </div>
+
+    <div
+      jasrDragAndDrop
+      class="upload-file"
+      (onFileDropped)="fileDropped($event.files)"
+      (click)="uploadDocument.click()"
+    >
+      <h5>Upload the profile photo</h5>
+      <div *ngIf="!picture.value" class="state-empty">
+        <p>
+          <strong>Drop your file here</strong>or
+          <span>click to select a file</span>
+        </p>
+      </div>
+      <div *ngIf="picture.value" class="state-loaded">
+        <p>{{ picture.value.name }}</p>
+      </div>
+      <input
+        #uploadDocument
+        type="file"
+        accept="image/jpg,image/png"
+        (change)="fileSelected($event)"
+        hidden
+      />
+      <input type="reset" #reset hidden />
     </div>
   </div>
   <div mat-dialog-actions>

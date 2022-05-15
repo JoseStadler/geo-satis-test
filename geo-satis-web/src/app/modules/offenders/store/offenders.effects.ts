@@ -10,6 +10,7 @@ import { OffendersService } from '../services/offenders.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddEditOffenderComponent } from '../modals/add-edit-offender/add-edit-offender.component';
 import { Offender } from '../models/offender.model';
+import { OffenderModalResult } from '../models/offender-modal-result.model';
 
 @Injectable()
 export class OffendersEffects {
@@ -39,7 +40,12 @@ export class OffendersEffects {
     this.actions$.pipe(
       ofType(OffendersActions.saveNewOffender),
       switchMap(() => this.openAddEditOffenderModal()),
-      switchMap((offender) => this.offendersService.saveOffender(offender)),
+      switchMap((modalResultData) =>
+        this.offendersService.saveOffender(
+          modalResultData.offender,
+          modalResultData.picture
+        )
+      ),
       map(() => OffendersActions.getOffenders())
     )
   );
@@ -49,16 +55,23 @@ export class OffendersEffects {
       ofType(OffendersActions.updateOffender),
       switchMap((action) =>
         this.openAddEditOffenderModal(action).pipe(
-          map((offender) => {
+          map((modalResultData) => {
             return {
-              ...offender,
-              id: action.id,
+              ...modalResultData,
+              offender: {
+                ...modalResultData.offender,
+                id: action.id,
+              },
             };
           })
         )
       ),
-      switchMap((offender) =>
-        this.offendersService.updateOffender(offender.id, offender)
+      switchMap((modalResultData) =>
+        this.offendersService.updateOffender(
+          modalResultData.offender.id,
+          modalResultData.offender,
+          modalResultData.picture
+        )
       ),
       map(() => OffendersActions.getOffenders())
     )
@@ -98,7 +111,9 @@ export class OffendersEffects {
     ]);
   }
 
-  private openAddEditOffenderModal(offender?: Offender): Observable<Offender> {
+  private openAddEditOffenderModal(
+    offender?: Offender
+  ): Observable<OffenderModalResult> {
     const dialogRef = this.dialog.open(AddEditOffenderComponent, {
       width: '300px',
       data: offender,

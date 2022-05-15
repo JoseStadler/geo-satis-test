@@ -1,6 +1,7 @@
 <div class="offender">
   <div class="offender__photo">
     <img
+      class="offender__photo--image"
       *ngIf="offender?.picture; else icon"
       [src]="offender?.picture"
       alt="Offender Photo"

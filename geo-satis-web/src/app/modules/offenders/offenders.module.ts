@@ -7,6 +7,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { DragAndDropModule } from 'ngx-jasr-lib';
 import { LayoutModule } from 'src/app/shared/components/layout/layout.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { OffenderComponent } from './components/offender/offender.component';
@@ -38,6 +39,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatProgressSpinnerModule,
     MatDialogModule,
     ReactiveFormsModule,
+    DragAndDropModule,
   ],
   exports: [],
 })
