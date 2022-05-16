@@ -9,10 +9,6 @@ import {
   offendersPagedList,
 } from './store/offenders.selectors';
 import { Message } from '@stomp/stompjs';
-import { AddEditOffenderComponent } from './modals/add-edit-offender/add-edit-offender.component';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { filter, Observable } from 'rxjs';
-import { OffendersService } from './services/offenders.service';
 
 @Component({
   selector: 'app-offenders',
@@ -28,15 +24,9 @@ export class OffendersComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(OffendersActions.getOffenders());
-    this.rxStompService
-      .watch('/ws-resp/greetings')
-      .subscribe((message: Message) => {
-        console.log(message.body);
-      });
-
     // const message = `Message generated at ${new Date()}`;
     // this.rxStompService.publish({
-    //   destination: '/app-ws/hello',
+    //   destination: '/app-ws/stopTrackedOffenders',
     //   body: message,
     // });
   }

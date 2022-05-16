@@ -1,4 +1,4 @@
-package ec.com.jasr.geosatisws.modules.offenders.common.filesystem.service;
+package ec.com.jasr.geosatisws.modules.common.filesystem.service;
 
 import java.io.File;
 import java.io.IOException;

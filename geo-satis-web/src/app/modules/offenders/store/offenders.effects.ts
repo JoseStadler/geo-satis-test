@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { OffendersActions } from './action-types';
-import { delay, filter, first, map, switchMap, tap } from 'rxjs/operators';
-import { forkJoin, Observable, of } from 'rxjs';
+import { filter, first, map, switchMap, tap } from 'rxjs/operators';
+import { forkJoin, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { offendersCurrentPage, offendersPageSize } from './offenders.selectors';
 import { RxStompService } from 'src/app/shared/rx-stomp/rx-stomp.service';
@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddEditOffenderComponent } from '../modals/add-edit-offender/add-edit-offender.component';
 import { Offender } from '../models/offender.model';
 import { OffenderModalResult } from '../models/offender-modal-result.model';
+import { OffenderDTO } from '../models/offender-dto.model';
 
 @Injectable()
 export class OffendersEffects {
@@ -18,6 +19,7 @@ export class OffendersEffects {
     this.actions$.pipe(
       ofType(OffendersActions.getOffenders),
       tap(() => this.startLoader()),
+      tap(() => this.store.dispatch(OffendersActions.trackOffenders())),
       switchMap(() => this.getCurrentPageAndPageSize()),
       switchMap(([currentPage, size]) =>
         this.offendersService.findOffendersPaged(currentPage, size)
@@ -77,16 +79,16 @@ export class OffendersEffects {
     )
   );
 
-  // logout$ = createEffect(() =>
-  //     this.actions$
-  //         .pipe(
-  //             ofType(AuthActions.logout),
-  //             tap(action => {
-  //                 localStorage.removeItem('user');
-  //                 this.router.navigateByUrl('/login');
-  //             })
-  //         )
-  // , {dispatch: false});
+  trackOffenders$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(OffendersActions.trackOffenders),
+      switchMap(() => this.rxStompService.watch('/ws-resp/greetings')),
+      map((message) => JSON.parse(message.body)),
+      map((offender: OffenderDTO) =>
+        OffendersActions.updateOffenderTrackedOffender(offender)
+      )
+    )
+  );
 
   constructor(
     private actions$: Actions,

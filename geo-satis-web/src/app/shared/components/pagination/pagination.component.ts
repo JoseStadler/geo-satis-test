@@ -27,10 +27,17 @@ import {
   `,
 })
 export class PaginationComponent {
-  @Input()
-  totalPages!: number;
+  @Input() set totalPages(totalPages: number) {
+    this._totalPages = totalPages;
+  }
   @Input()
   page!: number;
   @Output() pageChanged = new EventEmitter<number>();
   @Input() tableSize = 5;
+
+  private _totalPages: number = 0;
+
+  get totalPages() {
+    return this._totalPages;
+  }
 }

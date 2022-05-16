@@ -3,7 +3,9 @@ package ec.com.jasr.geosatisws.modules.offenders.service;
 import ec.com.jasr.geosatisws.core.application.AppSpringCtx;
 import ec.com.jasr.geosatisws.core.util.AppException;
 import ec.com.jasr.geosatisws.core.util.AppUtil;
-import ec.com.jasr.geosatisws.modules.offenders.common.filesystem.service.FileSystemService;
+import ec.com.jasr.geosatisws.modules.common.filesystem.service.FileSystemService;
+import ec.com.jasr.geosatisws.modules.offenders.model.dto.OffenderDTO;
+import ec.com.jasr.geosatisws.modules.offenders.model.dto.TrackedOffender;
 import ec.com.jasr.geosatisws.modules.offenders.model.entity.Offender;
 import ec.com.jasr.geosatisws.modules.offenders.repository.OffenderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +19,39 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class OffenderService {
+
+    private static List<TrackedOffender> trackedOffenders = new ArrayList<>();
 
     @Autowired
     private OffenderRepository offenderRepo;
 
     public Page<Offender> findOffendersPaged(int page, int size) {
-        return offenderRepo.findAll(AppUtil.createPageRequest(page, size, Sort.by(Sort.Direction.ASC, "lastName")));
+        Page<Offender> pagedList = offenderRepo.findAll(AppUtil.createPageRequest(page, size, Sort.by(Sort.Direction.ASC, "lastName")));
+
+        this.startTrackingOffenders(pagedList);
+
+        return pagedList;
+    }
+
+    private void startTrackingOffenders(Page<Offender> pagedList) {
+        pagedList.getContent().stream().forEach((offender) -> {
+            if (!trackedOffenders.stream().anyMatch(trackedOffender -> trackedOffender.getOffender().getId().equals(offender.getId()))) {
+                OffenderDTO offenderDTO = new OffenderDTO(offender);
+                TrackedOffender trackedOffender = new TrackedOffender(offenderDTO);
+                trackedOffender.beginTracking();
+                trackedOffenders.add(trackedOffender);
+            } else {
+                TrackedOffender foundOffender = trackedOffenders.stream().filter(trackedOffender -> trackedOffender.getOffender().getId().equals(offender.getId())).collect(Collectors.toList()).get(0);
+                foundOffender.setOffender(new OffenderDTO(offender));
+            }
+        });
     }
 
     @Transactional
@@ -71,6 +96,7 @@ public class OffenderService {
         }
 
         this.prepareOffenderToUpdate(offender, optionalSavedOffender.get());
+        this.stopTrackedOffender(optionalSavedOffender.get().getId());
         return this.saveOffender(offender, picture);
     }
 
@@ -84,13 +110,21 @@ public class OffenderService {
         offender.setPicture(savedOffender.getPicture());
     }
 
-    @MessageMapping("/hello")
-    @SendTo("/ws-resp/greetings")
-    public Offender greeting(String message) throws Exception {
-        Thread.sleep(1000); // simulated delay
-        Offender of = new Offender();
-        of.setFirstName("Prueba");
-        of.setLastName("ST");
-        return of;
+    private void stopTrackedOffender(Long id) {
+        List<Long> ids = new ArrayList<>();
+        ids.add(id);
+        this.stopTrackedOffenders(ids);
+    }
+    public void stopTrackedOffenders(List<Long> offenderIds) {
+        trackedOffenders.stream()
+                .filter(trackedOffender ->
+                        offenderIds.stream()
+                                .anyMatch(id -> trackedOffender.getOffender().getId().equals(id)))
+                .forEach(trackedOffender -> trackedOffender.stopTracking());
+        trackedOffenders.removeAll(
+                trackedOffenders.stream()
+                        .filter(trackedOffender -> trackedOffender.isShutdown())
+                        .collect(Collectors.toList())
+        );
     }
 }

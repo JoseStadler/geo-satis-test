@@ -5,7 +5,10 @@
     </button>
   </section>
   <section class="offenders__map">
-    <app-offenders-map></app-offenders-map>
+    <app-offenders-map
+      *ngIf="offenders$ | async as offenders"
+      [offenders]="offenders"
+    ></app-offenders-map>
   </section>
   <section class="offenders__list">
     <mat-spinner *ngIf="loading$ | async" class="loader"></mat-spinner>
@@ -19,7 +22,7 @@
     <div class="pagination">
       <app-pagination
         *ngIf="offendersPagedList$ | async as pagedData"
-        [totalPages]="pagedData.totalPages"
+        [totalPages]="pagedData.totalElements"
         [page]="pagedData.number"
         (pageChanged)="pageChanged($event)"
       ></app-pagination>

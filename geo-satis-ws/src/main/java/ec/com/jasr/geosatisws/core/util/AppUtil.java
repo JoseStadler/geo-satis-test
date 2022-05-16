@@ -10,7 +10,7 @@ public class AppUtil {
     }
 
     public static PageRequest createPageRequest(int page, int size, Sort sort) {
-        return PageRequest.of(page, size, sort);
+        return PageRequest.of(page - 1, size, sort);
     }
 
 }

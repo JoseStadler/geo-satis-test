@@ -1,1 +1,15 @@
-<div style="height: 100%" leaflet [leafletOptions]="options"></div>
+<div
+  *ngIf="offenders?.length"
+  style="height: 100%"
+  leaflet
+  [leafletOptions]="options"
+  [leafletLayersControl]="layersControl"
+  (leafletMapReady)="onMapReady($event)"
+>
+  <div
+    #marker
+    *ngFor="let offender of offenders"
+    [leafletLayer]="getOffenderLayer(offender)"
+    (click)="openPopup(marker)"
+  ></div>
+</div>
