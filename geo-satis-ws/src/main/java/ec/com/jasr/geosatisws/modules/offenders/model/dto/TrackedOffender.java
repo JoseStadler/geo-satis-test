@@ -33,7 +33,7 @@ public class TrackedOffender {
             offender.setLatitude(getRandomValue(offender.getLatitude()));
             offender.setLongitude(getRandomValue(offender.getLongitude()));
 
-            AppSpringCtx.getBean(SimpMessagingTemplate.class).convertAndSend("/ws-resp/greetings", offender);
+            AppSpringCtx.getBean(SimpMessagingTemplate.class).convertAndSend("/ws-resp/offenders-position", offender);
         }, 0, 1, TimeUnit.SECONDS);
 
     }

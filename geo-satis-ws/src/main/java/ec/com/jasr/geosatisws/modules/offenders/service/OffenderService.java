@@ -42,16 +42,28 @@ public class OffenderService {
 
     private void startTrackingOffenders(Page<Offender> pagedList) {
         pagedList.getContent().stream().forEach((offender) -> {
-            if (!trackedOffenders.stream().anyMatch(trackedOffender -> trackedOffender.getOffender().getId().equals(offender.getId()))) {
-                OffenderDTO offenderDTO = new OffenderDTO(offender);
-                TrackedOffender trackedOffender = new TrackedOffender(offenderDTO);
-                trackedOffender.beginTracking();
-                trackedOffenders.add(trackedOffender);
+            if (!this.offenderAlreadyTracked(offender)) {
+                this.trackNewOffender(offender);
             } else {
-                TrackedOffender foundOffender = trackedOffenders.stream().filter(trackedOffender -> trackedOffender.getOffender().getId().equals(offender.getId())).collect(Collectors.toList()).get(0);
-                foundOffender.setOffender(new OffenderDTO(offender));
+                this.updateTrackedOffender(offender);
             }
         });
+    }
+
+    private boolean offenderAlreadyTracked(Offender offender) {
+        return trackedOffenders.stream().anyMatch(trackedOffender -> trackedOffender.getOffender().getId().equals(offender.getId()));
+    }
+
+    private void trackNewOffender(Offender offender) {
+        OffenderDTO offenderDTO = new OffenderDTO(offender);
+        TrackedOffender trackedOffender = new TrackedOffender(offenderDTO);
+        trackedOffender.beginTracking();
+        trackedOffenders.add(trackedOffender);
+    }
+
+    private void updateTrackedOffender(Offender offender) {
+        TrackedOffender foundOffender = trackedOffenders.stream().filter(trackedOffender -> trackedOffender.getOffender().getId().equals(offender.getId())).collect(Collectors.toList()).get(0);
+        foundOffender.setOffender(new OffenderDTO(offender));
     }
 
     @Transactional

@@ -23,7 +23,7 @@ public class FileSystemService {
     public String uploadFile(String offenderFullName, MultipartFile file) throws IOException {
         StringBuilder directory = this.getDirectoryPath();
         String fileName = this.prepareFileName(offenderFullName, file);
-        this.validateDirectoryPath(directory);
+        this.validateExistsDirectoryPath(directory);
         Path filePath = this.getFilePath(directory, fileName);
         this.saveFileInFileSystem(file, filePath);
         return fileName;
@@ -38,7 +38,7 @@ public class FileSystemService {
         return offenderFullName + "-" + fileName;
     }
 
-    private void validateDirectoryPath(StringBuilder directory) {
+    private void validateExistsDirectoryPath(StringBuilder directory) {
         File dir = new File(directory.toString());
         if (!dir.exists()) { dir.mkdirs(); }
     }

@@ -5,7 +5,11 @@ import { filter, first, map, switchMap, tap } from 'rxjs/operators';
 import { forkJoin, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Message } from '@stomp/stompjs';
-import { offendersCurrentPage, offendersPageSize } from './offenders.selectors';
+import {
+  offendersCurrentPage,
+  offendersListIds,
+  offendersPageSize,
+} from './offenders.selectors';
 import { RxStompService } from 'src/app/shared/rx-stomp/rx-stomp.service';
 import { OffendersService } from '../services/offenders.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -35,6 +39,14 @@ export class OffendersEffects {
   pageChanged$ = createEffect(() =>
     this.actions$.pipe(
       ofType(OffendersActions.changeOffendersPage),
+      switchMap(() => this.store.select(offendersListIds).pipe(first())),
+      tap((offenderIds) =>
+        this.store.dispatch(
+          OffendersActions.stopTrackedOffenders({
+            offenderIds,
+          })
+        )
+      ),
       map(() => OffendersActions.getOffenders())
     )
   );
@@ -83,12 +95,26 @@ export class OffendersEffects {
   trackOffenders$ = createEffect(() =>
     this.actions$.pipe(
       ofType(OffendersActions.trackOffenders),
-      switchMap(() => this.rxStompService.watch('/ws-resp/greetings')),
+      switchMap(() => this.rxStompService.watch('/ws-resp/offenders-position')),
       map((message: Message) => JSON.parse(message.body)),
       map((offender: OffenderDTO) =>
         OffendersActions.updateOffenderTrackedOffender(offender)
       )
     )
+  );
+
+  stopTrackedOffenders$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(OffendersActions.stopTrackedOffenders),
+        tap((action) =>
+          this.rxStompService.publish({
+            destination: '/app-ws/stopTrackedOffenders',
+            body: action.offenderIds.toString(),
+          })
+        )
+      ),
+    { dispatch: false }
   );
 
   constructor(

@@ -22,7 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import ec.com.jasr.geosatisws.core.application.AppSpringCtx;
 import ec.com.jasr.geosatisws.core.security.util.SecurityConstants;
-import ec.com.jasr.geosatisws.core.security.util.XSSRequestWrapper;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
@@ -50,7 +49,6 @@ public class CorsFilter implements Filter {
                     request.getContentType().contains(MediaType.MULTIPART_FORM_DATA_VALUE)) {
                 chain.doFilter(request, response);
             } else {
-                XSSRequestWrapper wrappedRequest = new XSSRequestWrapper(request);
                 chain.doFilter(request, response);
             }
         }

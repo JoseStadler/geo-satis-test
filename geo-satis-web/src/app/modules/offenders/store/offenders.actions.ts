@@ -38,3 +38,8 @@ export const updateOffenderTrackedOffender = createAction(
   '[Offenders Page] update Tracked Offender',
   props<OffenderDTO>()
 );
+
+export const stopTrackedOffenders = createAction(
+  '[Offenders Page] stop Tracked Offenders',
+  props<{ offenderIds: number[] }>()
+);

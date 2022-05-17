@@ -11,12 +11,15 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
-//@Controller
 @RestController
 @RequestMapping(value = "api/offenders")
 public class OffenderController {
@@ -71,7 +74,10 @@ public class OffenderController {
     }
 
     @MessageMapping("/stopTrackedOffenders")
-    public void greeting(List<Long> ids) throws Exception {
-        offenderService.stopTrackedOffenders(ids);
+    public void stopTrackedOffenders(String ids) throws Exception {
+        offenderService.stopTrackedOffenders(
+                Arrays.stream(ids.split(","))
+                        .map(id -> Long.valueOf(id)).collect(Collectors.toList())
+                );
     }
 }

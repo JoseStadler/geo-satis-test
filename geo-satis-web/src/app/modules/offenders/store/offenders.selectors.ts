@@ -29,7 +29,6 @@ export const loadingOffenders = createSelector(
   (state) => state.loading
 );
 
-// export const isLoggedOut = createSelector(
-//     isLoggedIn,
-//     loggedIn => !loggedIn
-// );
+export const offendersListIds = createSelector(offendersList, (offenders) =>
+  offenders.map((offender) => offender.id)
+);
