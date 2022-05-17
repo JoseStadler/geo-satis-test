@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { of, tap } from 'rxjs';
 import { Offender } from './models/offender.model';
 import { OffendersActions } from './store/action-types';
 import {
