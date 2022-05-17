@@ -18,7 +18,6 @@ const materialModules = [
   MatInputModule,
   MatFormFieldModule,
   MatDatepickerModule,
-  // MatMomentDateModule,
   MatNativeDateModule,
 ];
 

@@ -14,21 +14,22 @@
     </ng-template>
   </div>
   <div class="offender__details">
-    <p class="offender__name">
+    <p id="offender_last_name" class="offender__name">
       Last name: <span>{{ offender?.lastName }}</span>
     </p>
-    <p class="offender__name">
+    <p id="offender_first_name" class="offender__name">
       First name: <span>{{ offender?.firstName }}</span>
     </p>
-    <p>
+    <p id="offender_latitude">
       Latitude: <span>{{ offender?.position?.latitude }}</span>
     </p>
-    <p>
+    <p id="offender_longitude">
       Longitude: <span>{{ offender?.position?.longitude }}</span>
     </p>
   </div>
   <div class="offender__actions">
     <mat-icon
+      id="edit_offender"
       class="offender__action"
       aria-hidden="false"
       aria-label="Offender Picture"

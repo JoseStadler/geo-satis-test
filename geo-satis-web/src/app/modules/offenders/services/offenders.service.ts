@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { PaginatedList } from 'src/app/shared/models/paginated-list.model';
-import { RxStompService } from 'src/app/shared/rx-stomp/rx-stomp.service';
 import { transformObjectToFormData } from 'src/app/shared/util/util.functions';
 import { environment } from 'src/environments/environment';
 import { Offender } from '../models/offender.model';
@@ -13,10 +12,7 @@ import { Offender } from '../models/offender.model';
 export class OffendersService {
   private baseUrl = environment.apiUrl + 'offenders';
 
-  constructor(
-    private http: HttpClient,
-    private rxStompService: RxStompService
-  ) {}
+  constructor(private http: HttpClient) {}
 
   findOffendersPaged(
     page: number,
@@ -72,9 +68,5 @@ export class OffendersService {
     }
 
     return formData;
-  }
-
-  trackOffenders() {
-    return this.rxStompService.watch('/ws-resp/greetings');
   }
 }

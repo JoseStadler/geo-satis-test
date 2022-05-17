@@ -9,7 +9,7 @@ export interface OffendersState {
   loading: boolean;
 }
 
-export const initialAuthState: OffendersState = {
+export const initialOffenderState: OffendersState = {
   offenders: {
     content: [],
     number: 0,
@@ -23,7 +23,7 @@ export const initialAuthState: OffendersState = {
 };
 
 export const offendersReducer = createReducer(
-  initialAuthState,
+  initialOffenderState,
 
   on(OffendersActions.getOffenders, (state) => {
     return {

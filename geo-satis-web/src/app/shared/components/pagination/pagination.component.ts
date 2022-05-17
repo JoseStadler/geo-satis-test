@@ -1,18 +1,11 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-pagination',
   template: `
     <pagination
       [boundaryLinks]="true"
-      [totalItems]="totalPages"
+      [totalItems]="totalElements"
       [(ngModel)]="page"
       (pageChanged)="pageChanged.emit($event.page)"
       previousText="&lsaquo;"
@@ -27,17 +20,8 @@ import {
   `,
 })
 export class PaginationComponent {
-  @Input() set totalPages(totalPages: number) {
-    this._totalPages = totalPages;
-  }
-  @Input()
-  page!: number;
-  @Output() pageChanged = new EventEmitter<number>();
+  @Input() totalElements: number = 0;
+  @Input() page: number = 1;
   @Input() tableSize = 5;
-
-  private _totalPages: number = 0;
-
-  get totalPages() {
-    return this._totalPages;
-  }
+  @Output() pageChanged = new EventEmitter<number>();
 }

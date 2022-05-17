@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import * as moment from 'moment-timezone';
 import { DATE_TIME_FORMAT } from '../base.constants';
 import { TimeZoneService } from '../services/time-zone.service';
+import * as moment from 'moment-timezone';
 
 @Pipe({
   name: 'dateTime',

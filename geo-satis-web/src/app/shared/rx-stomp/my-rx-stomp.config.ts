@@ -7,12 +7,8 @@ export const myRxStompConfig: RxStompConfig = {
     return new SockJS(environment.webSocketUrl);
   },
 
-  heartbeatIncoming: 0, // Typical value 0 - disabled
-  heartbeatOutgoing: 20000, // Typical value 20000 - every 20 seconds
+  heartbeatIncoming: 0,
+  heartbeatOutgoing: 20000,
 
   reconnectDelay: 200,
-
-  // debug: (msg: string): void => {
-  //   console.log(new Date(), msg);
-  // },
 };

@@ -1,5 +1,4 @@
 import { createAction, props } from '@ngrx/store';
-import { BaseSearch } from 'src/app/shared/models/base-search.model';
 import { PaginatedList } from 'src/app/shared/models/paginated-list.model';
 import { OffenderDTO } from '../models/offender-dto.model';
 import { Offender } from '../models/offender.model';

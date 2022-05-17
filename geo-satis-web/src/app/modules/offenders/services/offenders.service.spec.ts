@@ -3,10 +3,10 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { OffendersService } from './offenders.service';
 
-describe('Service: Offenders', () => {
+xdescribe('Service: Offenders', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [OffendersService]
+      providers: [OffendersService],
     });
   });
 

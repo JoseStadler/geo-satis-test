@@ -1,4 +1,5 @@
 <div
+  id="map"
   *ngIf="offenders?.length"
   style="height: 100%"
   leaflet
@@ -7,6 +8,7 @@
   (leafletMapReady)="onMapReady($event)"
 >
   <div
+    id="marker"
     #marker
     *ngFor="let offender of offenders"
     [leafletLayer]="getOffenderLayer(offender)"

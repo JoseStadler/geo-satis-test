@@ -4,6 +4,7 @@ import { OffendersActions } from './action-types';
 import { filter, first, map, switchMap, tap } from 'rxjs/operators';
 import { forkJoin, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { Message } from '@stomp/stompjs';
 import { offendersCurrentPage, offendersPageSize } from './offenders.selectors';
 import { RxStompService } from 'src/app/shared/rx-stomp/rx-stomp.service';
 import { OffendersService } from '../services/offenders.service';
@@ -83,7 +84,7 @@ export class OffendersEffects {
     this.actions$.pipe(
       ofType(OffendersActions.trackOffenders),
       switchMap(() => this.rxStompService.watch('/ws-resp/greetings')),
-      map((message) => JSON.parse(message.body)),
+      map((message: Message) => JSON.parse(message.body)),
       map((offender: OffenderDTO) =>
         OffendersActions.updateOffenderTrackedOffender(offender)
       )

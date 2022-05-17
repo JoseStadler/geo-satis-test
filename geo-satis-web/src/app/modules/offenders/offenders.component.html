@@ -4,28 +4,27 @@
       + New Offender
     </button>
   </section>
-  <section class="offenders__map">
-    <app-offenders-map
-      *ngIf="offenders$ | async as offenders"
-      [offenders]="offenders"
-    ></app-offenders-map>
-  </section>
-  <section class="offenders__list">
-    <mat-spinner *ngIf="loading$ | async" class="loader"></mat-spinner>
-    <div class="offenders_items">
-      <app-offender
-        *ngFor="let offender of offenders$ | async"
-        [offender]="offender"
-        (edit)="editOffender($event)"
-      ></app-offender>
-    </div>
-    <div class="pagination">
-      <app-pagination
-        *ngIf="offendersPagedList$ | async as pagedData"
-        [totalPages]="pagedData.totalElements"
-        [page]="pagedData.number"
-        (pageChanged)="pageChanged($event)"
-      ></app-pagination>
-    </div>
-  </section>
+  <ng-container *ngIf="offenders$ | async as offenders">
+    <section class="offenders__map">
+      <mat-spinner *ngIf="loading$ | async" class="loader"></mat-spinner>
+      <app-offenders-map [offenders]="offenders"></app-offenders-map>
+    </section>
+    <section class="offenders__list">
+      <div class="offenders_items">
+        <app-offender
+          *ngFor="let offender of offenders"
+          [offender]="offender"
+          (edit)="editOffender($event)"
+        ></app-offender>
+      </div>
+      <div class="pagination" *ngIf="offendersPagedList$ | async as pagedData">
+        <app-pagination
+          *ngIf="pagedData.totalElements > 0"
+          [totalElements]="pagedData.totalElements"
+          [page]="pagedData.number"
+          (pageChanged)="pageChanged($event)"
+        ></app-pagination>
+      </div>
+    </section>
+  </ng-container>
 </div>
