@@ -1,9 +1,6 @@
 package ec.com.jasr.geosatisws.modules.offenders.model.dto;
 
 import ec.com.jasr.geosatisws.core.application.AppSpringCtx;
-import ec.com.jasr.geosatisws.modules.offenders.model.dto.OffenderDTO;
-import ec.com.jasr.geosatisws.modules.offenders.model.entity.Offender;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.messaging.simp.SimpMessagingTemplate;

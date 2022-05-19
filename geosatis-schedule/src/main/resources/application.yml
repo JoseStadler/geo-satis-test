@@ -9,20 +9,15 @@ spring:
       ddl-auto: update
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/geosatis
+    url: jdbc:postgresql://localhost:5432/geosatis_schedule
     username: postgres
     password: postgres
   flyway:
     enabled: false
     locations:
-      - classpath:db
+      - classpath:flyway
     baseline-on-migrate: true
     encoding: UTF-8
     out-of-order: true
     schemas:
-      - public
-
-geoatis:
-  config:
-    allowed-origins-authorized: '@allowed-origins-authorized@'
-  file-system-path: '@file-system-path@'
+      - flyway
