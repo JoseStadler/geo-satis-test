@@ -3,7 +3,6 @@ package ec.com.jasr.geosatisschedule.modules.schedule.scheduleevent.controller;
 import ec.com.jasr.geosatisschedule.core.application.AppSpringCtx;
 import ec.com.jasr.geosatisschedule.core.util.BaseController;
 import ec.com.jasr.geosatisschedule.modules.schedule.scheduleevent.model.dto.NewScheduledEventDTO;
-import ec.com.jasr.geosatisschedule.modules.schedule.scheduleevent.model.dto.ScheduledEventDTO;
 import ec.com.jasr.geosatisschedule.modules.schedule.scheduleevent.model.dto.UpdateScheduleEventDTO;
 import ec.com.jasr.geosatisschedule.modules.schedule.scheduleevent.service.ScheduleEventService;
 import org.springframework.http.HttpStatus;
