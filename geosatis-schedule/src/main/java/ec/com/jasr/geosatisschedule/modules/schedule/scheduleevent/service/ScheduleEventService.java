@@ -10,6 +10,7 @@ import ec.com.jasr.geosatisschedule.modules.schedule.scheduleevent.model.entity.
 import ec.com.jasr.geosatisschedule.modules.schedule.scheduleevent.repository.RecurringScheduledEventRepository;
 import ec.com.jasr.geosatisschedule.modules.schedule.scheduleevent.repository.ScheduleEventRepository;
 import ec.com.jasr.geosatisschedule.modules.schedule.scheduleevent.util.ScheduleEventWeekDays;
+import ec.com.jasr.geosatisschedule.modules.schedule.scheduleevent.util.ScheduledEventConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.apache.commons.collections4.CollectionUtils;
@@ -39,7 +40,7 @@ public class ScheduleEventService {
 
     private void validateNewScheduledEventData(NewScheduledEventDTO newEventData) throws AppException {
         if (!this.isRecurrentEvent(newEventData) && !this.isRangeEvent(newEventData)) {
-            AppUtil.throwError("Event must be defined using range or recurring option", HttpStatus.BAD_REQUEST);
+            AppUtil.throwError(ScheduledEventConstants.EVENT_MUST_BE_DEFINED_USING_RANGE_OR_RECURRING_OPTION, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -93,23 +94,23 @@ public class ScheduleEventService {
 
     private void validateDataForRecurringScheduledEvent(ScheduledEventRecurringDataDTO recurringDto) throws AppException {
         if (recurringDto.getDay() == null) {
-            AppUtil.throwError("Recurring event must have day option set up", HttpStatus.BAD_REQUEST);
+            AppUtil.throwError(ScheduledEventConstants.RECURRING_EVENT_MUST_HAVE_DAY_OPTION_SET_UP, HttpStatus.BAD_REQUEST);
         }
 
         if (recurringDto.getStartTime() == null) {
-            AppUtil.throwError("Recurring event must have a start time", HttpStatus.BAD_REQUEST);
+            AppUtil.throwError(ScheduledEventConstants.RECURRING_EVENT_MUST_HAVE_A_START_TIME, HttpStatus.BAD_REQUEST);
         }
 
         if (recurringDto.getEndTime() == null) {
-            AppUtil.throwError("Recurring event must have a end time", HttpStatus.BAD_REQUEST);
+            AppUtil.throwError(ScheduledEventConstants.RECURRING_EVENT_MUST_HAVE_A_END_TIME, HttpStatus.BAD_REQUEST);
         }
 
         if (recurringDto.getInterval() != null && recurringDto.getIntervalType() == null) {
-            AppUtil.throwError("Recurring event with interval must have the interval type set up", HttpStatus.BAD_REQUEST);
+            AppUtil.throwError(ScheduledEventConstants.RECURRING_EVENT_WITH_INTERVAL_MUST_HAVE_THE_INTERVAL_TYPE_SET_UP, HttpStatus.BAD_REQUEST);
         }
 
         if (recurringDto.getIntervalType() != null && recurringDto.getInterval() == null) {
-            AppUtil.throwError("Recurring event with interval type must have the interval set up", HttpStatus.BAD_REQUEST);
+            AppUtil.throwError(ScheduledEventConstants.RECURRING_EVENT_WITH_INTERVAL_TYPE_MUST_HAVE_THE_INTERVAL_SET_UP, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -149,19 +150,19 @@ public class ScheduleEventService {
 
     private void validateScheduleId(Long scheduleId) throws AppException {
         if (scheduleId == null) {
-            AppUtil.throwError("Schedule event must have a scheduleId", HttpStatus.BAD_REQUEST);
+            AppUtil.throwError(ScheduledEventConstants.SCHEDULE_EVENT_MUST_HAVE_A_SCHEDULE_ID, HttpStatus.BAD_REQUEST);
         }
     }
 
     private void validateDatesForScheduledEvent(LocalDateTime startDate, LocalDateTime endDate) throws AppException {
         if (startDate == null) {
-            AppUtil.throwError("Schedule event must have a startDate", HttpStatus.BAD_REQUEST);
+            AppUtil.throwError(ScheduledEventConstants.SCHEDULE_EVENT_MUST_HAVE_A_START_DATE, HttpStatus.BAD_REQUEST);
         }
         if (endDate == null) {
-            AppUtil.throwError("Schedule event must have a endDate", HttpStatus.BAD_REQUEST);
+            AppUtil.throwError(ScheduledEventConstants.SCHEDULE_EVENT_MUST_HAVE_A_END_DATE, HttpStatus.BAD_REQUEST);
         }
         if (endDate.atOffset(ZoneOffset.UTC).isBefore(startDate.atOffset(ZoneOffset.UTC))) {
-            AppUtil.throwError("End date has to be after start date", HttpStatus.BAD_REQUEST);
+            AppUtil.throwError(ScheduledEventConstants.END_DATE_HAS_TO_BE_AFTER_START_DATE, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -186,7 +187,7 @@ public class ScheduleEventService {
 
     private void validateUpdateData(UpdateScheduleEventDTO updateDataDTO) throws AppException {
         if (!this.isRecurrentEvent(updateDataDTO) && !this.isRangeEvent(updateDataDTO) && ! this.isUpdateSpecificEvent(updateDataDTO)) {
-            AppUtil.throwError("Event must be updated using range, recurring or updateSpecificEvent option", HttpStatus.BAD_REQUEST);
+            AppUtil.throwError(ScheduledEventConstants.EVENT_MUST_BE_UPDATED_USING_RANGE_RECURRING_OR_UPDATE_SPECIFIC_EVENT_OPTION, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -200,7 +201,7 @@ public class ScheduleEventService {
         return this.saveSpecificNewEvent(savedEvent, specificEventDTO);
     }
 
-    private ScheduledEvent setDateAsExceptionInRecurringEvent(RecurringScheduledEvent savedEvent, UpdateSpecificEventDTO specificEventDTO) throws AppException {
+    private RecurringScheduledEvent setDateAsExceptionInRecurringEvent(RecurringScheduledEvent savedEvent, UpdateSpecificEventDTO specificEventDTO) throws AppException {
         UpdateScheduleEventDTO updateScheduleEventDTO = new UpdateScheduleEventDTO();
         ScheduledEventRecurringDataDTO recurringDataDTO =  new ScheduledEventRecurringDataDTO();
         List<LocalDate> exceptionDates = new ArrayList<>();
@@ -244,7 +245,7 @@ public class ScheduleEventService {
     private RecurringScheduledEvent findSavedRecurringEvent(Long id) throws AppException {
         Optional<RecurringScheduledEvent> optionalScheduledEvent = AppSpringCtx.getBean(RecurringScheduledEventRepository.class).findById(id);
         if (optionalScheduledEvent.isEmpty()) {
-            AppUtil.throwError("Event with id: " + id + " could not be found", HttpStatus.NOT_FOUND);
+            AppUtil.throwError(ScheduledEventConstants.EVENT_WITH_ID + id + ScheduledEventConstants.COULD_NOT_BE_FOUND, HttpStatus.NOT_FOUND);
         }
 
         return optionalScheduledEvent.get();
@@ -300,14 +301,14 @@ public class ScheduleEventService {
         savedEvent.setEndDate(eventDate.atTime(recurringDTO.getEndTime() != null ? recurringDTO.getEndTime() : savedEvent.getEndDate().toLocalTime()));
     }
 
-    private ScheduledEvent updateAndSaveRecurringEvent(RecurringScheduledEvent savedEvent, UpdateScheduleEventDTO updateDataDTO) throws AppException {
+    private RecurringScheduledEvent updateAndSaveRecurringEvent(RecurringScheduledEvent savedEvent, UpdateScheduleEventDTO updateDataDTO) throws AppException {
         this.updateRecurringDateValues(savedEvent, updateDataDTO);
         return this.saveUpdatedRecurringDate(savedEvent);
     }
 
-    private ScheduledEvent saveUpdatedRecurringDate(RecurringScheduledEvent savedEvent) throws AppException {
+    private RecurringScheduledEvent saveUpdatedRecurringDate(RecurringScheduledEvent savedEvent) throws AppException {
         this.validateDatesForScheduledEvent(savedEvent.getStartDate(), savedEvent.getEndDate());
-        return AppSpringCtx.getBean(ScheduleEventRepository.class).save(savedEvent);
+        return AppSpringCtx.getBean(RecurringScheduledEventRepository.class).save(savedEvent);
     }
 
     private ScheduledEvent updateDateRangeEvent(Long id, UpdateScheduleEventDTO updateDataDTO) throws AppException {
@@ -320,7 +321,7 @@ public class ScheduleEventService {
 
     private void validateIfEventCanBeUpdated(ScheduledEvent savedEvent) throws AppException {
         if (this.isPastEvent(savedEvent)) {
-            AppUtil.throwError("Past schedules can not be updated", HttpStatus.BAD_REQUEST);
+            AppUtil.throwError(ScheduledEventConstants.PAST_SCHEDULES_CAN_NOT_BE_UPDATED, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -331,7 +332,7 @@ public class ScheduleEventService {
     private ScheduledEvent findSavedRangeEvent(Long id) throws AppException {
         Optional<ScheduledEvent> optionalScheduledEvent = AppSpringCtx.getBean(ScheduleEventRepository.class).findById(id);
         if (optionalScheduledEvent.isEmpty()) {
-            AppUtil.throwError("Event with id: " + id + " could not be found", HttpStatus.NOT_FOUND);
+            AppUtil.throwError(ScheduledEventConstants.EVENT_WITH_ID + id + ScheduledEventConstants.COULD_NOT_BE_FOUND, HttpStatus.NOT_FOUND);
         }
 
         return optionalScheduledEvent.get();
