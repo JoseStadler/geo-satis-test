@@ -220,14 +220,21 @@ public class ScheduleEventService {
         return this.saveNewDateRangeEvent(newScheduledEventDTO);
     }
 
+    @Transactional
     private ScheduledEvent updateDateRecurringEvent(Long id, UpdateScheduleEventDTO updateDataDTO) throws AppException {
         RecurringScheduledEvent savedEvent = this.findSavedRecurringEvent(id);
 
         if (this.isPastEvent(savedEvent)) {
+            this.stopPreviousRecurringEvent(savedEvent);
             return this.saveScheduleEvent(this.initNewScheduleEvent(savedEvent, updateDataDTO));
         }
 
         return this.updateAndSaveRecurringEvent(savedEvent, updateDataDTO);
+    }
+
+    private void stopPreviousRecurringEvent(RecurringScheduledEvent savedEvent) {
+        savedEvent.setStopRecurringDate(LocalDate.now());
+        AppSpringCtx.getBean(RecurringScheduledEventRepository.class).save(savedEvent);
     }
 
     private RecurringScheduledEvent findSavedRecurringEvent(Long id) throws AppException {

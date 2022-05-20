@@ -1,4 +1,9 @@
 spring:
+  mvc:
+    format:
+      date: iso
+      time: iso
+      date-time: iso
   jpa:
     generate-ddl: true
     show-sql: false

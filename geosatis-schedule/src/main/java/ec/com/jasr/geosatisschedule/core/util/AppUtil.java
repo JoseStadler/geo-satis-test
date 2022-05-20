@@ -33,7 +33,8 @@ public class AppUtil {
     }
 
     public static LocalDate getNextDateOf(DayOfWeek dayOfWeek) {
-        return LocalDate.now().with(TemporalAdjusters.next(dayOfWeek));
+        DayOfWeek day = DayOfWeek.of(LocalDate.now().get(ChronoField.DAY_OF_WEEK));
+        return dayOfWeek.equals(day) ? LocalDate.now() : LocalDate.now().with(TemporalAdjusters.next(dayOfWeek));
     }
 
     public static void throwError(String message, HttpStatus code) throws AppException {

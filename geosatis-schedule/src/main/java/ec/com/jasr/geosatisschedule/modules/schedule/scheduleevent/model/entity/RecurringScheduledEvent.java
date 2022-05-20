@@ -7,6 +7,7 @@ import ec.com.jasr.geosatisschedule.modules.schedule.scheduleevent.util.Schedule
 import ec.com.jasr.geosatisschedule.modules.schedule.scheduleevent.util.ScheduledEventIntervalType;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RecurringScheduledEvent extends ScheduledEvent {
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     @Column
     private ScheduleEventWeekDays day;
 
@@ -28,6 +29,9 @@ public class RecurringScheduledEvent extends ScheduledEvent {
     @Enumerated(EnumType.STRING)
     @Column(name = "interval_type")
     private ScheduledEventIntervalType intervalType;
+
+    @Column(name = "stop_recurring_date")
+    private LocalDate stopRecurringDate;
 
     @JsonManagedReference("RecurringScheduledEventScheduleEventExceptions")
     @OneToMany(mappedBy = "scheduledEvent", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -63,5 +67,13 @@ public class RecurringScheduledEvent extends ScheduledEvent {
 
     public void setExceptions(List<ScheduleEventException> exceptions) {
         this.exceptions = exceptions;
+    }
+
+    public LocalDate getStopRecurringDate() {
+        return stopRecurringDate;
+    }
+
+    public void setStopRecurringDate(LocalDate stopRecurringDate) {
+        this.stopRecurringDate = stopRecurringDate;
     }
 }
