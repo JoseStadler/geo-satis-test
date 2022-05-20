@@ -12,11 +12,9 @@ import ec.com.jasr.geosatisschedule.modules.schedule.scheduleevent.util.Schedule
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -28,7 +26,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 class ScheduleEventServiceTest {
 
