@@ -2,7 +2,7 @@ package ec.com.jasr.geosatisschedule.modules.schedule.scheduleevent.util;
 
 public enum ScheduleEventWeekDays {
 
-    EVERY_DAY(10),
+    EVERY_DAY(0),
     MONDAY(1),
     TUESDAY(2),
     WEDNESDAY(3),

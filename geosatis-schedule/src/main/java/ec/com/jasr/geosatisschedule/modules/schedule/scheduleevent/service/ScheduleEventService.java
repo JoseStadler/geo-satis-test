@@ -28,41 +28,45 @@ import java.util.stream.Collectors;
 public class ScheduleEventService {
 
     @Transactional
-    public ScheduledEvent saveScheduleEvent(NewScheduledEventDTO dto) throws AppException {
-        if (!this.isRecurrentEvent(dto) && !this.isRangeEvent(dto)) {
+    public ScheduledEvent saveScheduleEvent(NewScheduledEventDTO newEventData) throws AppException {
+        this.validateNewScheduledEventData(newEventData);
+
+        if (this.isRecurrentEvent(newEventData)) {
+            return this.saveNewRecurringEvent(newEventData);
+        }
+        return this.saveNewDateRangeEvent(newEventData);
+    }
+
+    private void validateNewScheduledEventData(NewScheduledEventDTO newEventData) throws AppException {
+        if (!this.isRecurrentEvent(newEventData) && !this.isRangeEvent(newEventData)) {
             AppUtil.throwError("Event must be defined using range or recurring option", HttpStatus.BAD_REQUEST);
         }
-
-        if (this.isRecurrentEvent(dto)) {
-            return this.saveNewRecurringEvent(dto);
-        }
-        return this.saveNewDateRangeEvent(dto);
     }
 
-    private boolean isRecurrentEvent(ScheduledEventDTO dto) {
-        return dto.getRecurring() != null;
+    private boolean isRecurrentEvent(ScheduledEventDTO eventData) {
+        return eventData.getRecurring() != null;
     }
 
-    private boolean isRangeEvent(ScheduledEventDTO dto) {
-        return dto.getRange() != null;
+    private boolean isRangeEvent(ScheduledEventDTO eventData) {
+        return eventData.getRange() != null;
     }
 
     @Transactional
-    public ScheduledEvent saveNewDateRangeEvent(NewScheduledEventDTO dto) throws AppException {
+    public ScheduledEvent saveNewDateRangeEvent(NewScheduledEventDTO newEventData) throws AppException {
         ScheduledEvent event = new ScheduledEvent();
-        this.validateAndSetScheduledEventData(dto, event);
+        this.validateAndSetScheduledEventData(newEventData, event);
         return AppSpringCtx.getBean(ScheduleEventRepository.class).save(event);
     }
 
     @Transactional
-    public RecurringScheduledEvent saveNewRecurringEvent(NewScheduledEventDTO dto) throws AppException {
+    public RecurringScheduledEvent saveNewRecurringEvent(NewScheduledEventDTO newEventData) throws AppException {
         RecurringScheduledEvent event = new RecurringScheduledEvent();
-        ScheduledEventRecurringDataDTO recurringDTO = dto.getRecurring();
+        ScheduledEventRecurringDataDTO recurringDTO = newEventData.getRecurring();
         this.validateDataForRecurringScheduledEvent(recurringDTO);
 
         this.setRecurringEventData(event, recurringDTO);
-        this.prepareDateRangeForScheduleEvent(dto, recurringDTO);
-        this.setScheduledEventData(dto, event);
+        this.prepareDateRangeForScheduleEvent(newEventData, recurringDTO);
+        this.setScheduledEventData(newEventData, event);
 
         return AppSpringCtx.getBean(RecurringScheduledEventRepository.class).save(event);
     }
@@ -127,20 +131,20 @@ public class ScheduleEventService {
         }
     }
 
-    private void setRangeDateForScheduledEvent(ScheduledEventDTO dto, LocalDate eventDate, ScheduledEventRecurringDataDTO recurringDTO) {
-        dto.setRange(new ScheduledEventRangeDateDTO());
-        dto.getRange().setStartDate(eventDate.atTime(recurringDTO.getStartTime()).atOffset(ZoneOffset.UTC).toLocalDateTime());
-        dto.getRange().setEndDate(eventDate.atTime(recurringDTO.getEndTime()).atOffset(ZoneOffset.UTC).toLocalDateTime());
+    private void setRangeDateForScheduledEvent(ScheduledEventDTO eventDTO, LocalDate eventDate, ScheduledEventRecurringDataDTO recurringDTO) {
+        eventDTO.setRange(new ScheduledEventRangeDateDTO());
+        eventDTO.getRange().setStartDate(eventDate.atTime(recurringDTO.getStartTime()).atOffset(ZoneOffset.UTC).toLocalDateTime());
+        eventDTO.getRange().setEndDate(eventDate.atTime(recurringDTO.getEndTime()).atOffset(ZoneOffset.UTC).toLocalDateTime());
     }
 
-    private void validateAndSetScheduledEventData(NewScheduledEventDTO dto, ScheduledEvent event) throws AppException {
-        this.validateDatesForScheduledEvent(dto);
-        this.setScheduledEventData(dto, event);
+    private void validateAndSetScheduledEventData(NewScheduledEventDTO newEventData, ScheduledEvent event) throws AppException {
+        this.validateDatesForScheduledEvent(newEventData);
+        this.setScheduledEventData(newEventData, event);
     }
 
-    private void validateDatesForScheduledEvent(NewScheduledEventDTO dto) throws AppException {
-        this.validateScheduleId(dto.getScheduleId());
-        this.validateDatesForScheduledEvent(dto.getRange().getStartDate(), dto.getRange().getEndDate());
+    private void validateDatesForScheduledEvent(NewScheduledEventDTO newEventData) throws AppException {
+        this.validateScheduleId(newEventData.getScheduleId());
+        this.validateDatesForScheduledEvent(newEventData.getRange().getStartDate(), newEventData.getRange().getEndDate());
     }
 
     private void validateScheduleId(Long scheduleId) throws AppException {
@@ -161,10 +165,10 @@ public class ScheduleEventService {
         }
     }
 
-    private void setScheduledEventData(NewScheduledEventDTO dto, ScheduledEvent event) {
-        event.setScheduleId(dto.getScheduleId());
-        event.setStartDate(dto.getRange().getStartDate().atOffset(ZoneOffset.UTC).toLocalDateTime());
-        event.setEndDate(dto.getRange().getEndDate().atOffset(ZoneOffset.UTC).toLocalDateTime());
+    private void setScheduledEventData(NewScheduledEventDTO newEventData, ScheduledEvent event) {
+        event.setScheduleId(newEventData.getScheduleId());
+        event.setStartDate(newEventData.getRange().getStartDate().atOffset(ZoneOffset.UTC).toLocalDateTime());
+        event.setEndDate(newEventData.getRange().getEndDate().atOffset(ZoneOffset.UTC).toLocalDateTime());
     }
 
     @Transactional

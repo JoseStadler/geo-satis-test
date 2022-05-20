@@ -22,9 +22,15 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
                                 "JOIN recurring_schedule_event re ON re.schedule_event = e.id " +
                         ") recursive_date ON e.id = recursive_date.schedule_event " +
                     "WHERE " +
-                    "DATE(recursive_date.repeated_date) = DATE(:searchDate) " +
-                    "AND CAST(e.start_date as time) < CAST(:searchDate as time) AND CAST(e.end_date as time) > CAST(:searchDate as time)" +
-                    "AND (recursive_date.day IS NULL OR EXTRACT(DOW FROM recursive_date.repeated_date) = recursive_date.day) " +
-                    "AND (se.exception_date IS NULL OR se.exception_date <> DATE(:searchDate))", nativeQuery = true)
+                        "DATE(recursive_date.repeated_date) = DATE(:searchDate) " +
+                        "AND CAST(e.start_date as time) < CAST(:searchDate as time) AND CAST(e.end_date as time) > CAST(:searchDate as time)" +
+                        "AND (recursive_date.day IS NULL " +
+                            "OR (recursive_date.day >= 7 " +
+                                "AND ((recursive_date.day = 8 AND EXTRACT(DOW FROM recursive_date.repeated_date) IN (1,2,3,4,5)) " +
+                                "OR (recursive_date.day = 9 AND EXTRACT(DOW FROM recursive_date.repeated_date) IN (6,0)) " +
+                                "OR (recursive_date.day = 7 AND EXTRACT(DOW FROM recursive_date.repeated_date) = 0)) " +
+                            "OR recursive_date.day = 0)" +
+                            "OR EXTRACT(DOW FROM recursive_date.repeated_date) = recursive_date.day) " +
+                        "AND (se.exception_date IS NULL OR se.exception_date <> DATE(:searchDate))", nativeQuery = true)
     public Boolean hasScheduledEvent(@Param("scheduleId") Long scheduleId, @Param("searchDate") LocalDateTime searchDate, @Param("toDate") LocalDateTime toDate);
 }
