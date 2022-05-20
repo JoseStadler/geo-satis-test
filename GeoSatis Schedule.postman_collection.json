@@ -1,0 +1,359 @@
+{
+	"info": {
+		"_postman_id": "57ce27de-17dd-4a55-8795-78c9d171a3e7",
+		"name": "GeoSatis Schedule",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Save new Schedule",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"prueba1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/schedules",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"schedules"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Schedule",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/schedules/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"schedules",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Schedule events by date",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/schedules/1/hasEvents?date=2022-05-19T15:39:11Z",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"schedules",
+						"1",
+						"hasEvents"
+					],
+					"query": [
+						{
+							"key": "date",
+							"value": "2022-05-19T15:39:11Z"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Schedule events by date Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/schedules/1/hasEvents?date=2022-05-23T10:39:11Z",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"schedules",
+						"1",
+						"hasEvents"
+					],
+					"query": [
+						{
+							"key": "date",
+							"value": "2022-05-23T10:39:11Z"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save new Schedule Event",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"scheduleId\": 1,\n    \"range\": {\n        \"startDate\": \"2018-09-28T07:39:11Z\",\n        \"endDate\": \"2018-09-28T10:39:11Z\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/schedules/events",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"schedules",
+						"events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save new recurring Schedule Event day",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"scheduleId\": 1,\n    \"recurring\": {\n        \"day\": \"SUNDAY\",\n        \"startTime\": \"10:00\",\n        \"endTime\": \"11:00\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/schedules/events",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"schedules",
+						"events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save new recurring Schedule Event day With Exceptions",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"scheduleId\": 1,\n    \"recurring\": {\n        \"day\": 1,\n        \"startTime\": \"10:00\",\n        \"endTime\": \"11:00\",\n        \"exceptionDates\": [\"2022-05-23\"]\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/schedules/events",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"schedules",
+						"events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save new recurring Schedule Event interval",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"scheduleId\": 1,\n    \"recurring\": {\n        \"day\": \"FRIDAY\",\n        \"startTime\": \"10:00\",\n        \"endTime\": \"11:00\",\n        \"interval\": 2,\n        \"intervalType\": \"WEEK\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/schedules/events",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"schedules",
+						"events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE range event",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"range\": {\n        \"startDate\": \"2022-06-28T10:39:11Z\",\n        \"endDate\": \"2022-06-28T12:39:11Z\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/schedules/events/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"schedules",
+						"events",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE recurring event",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"recurring\": {\n        \"day\": \"EVERY_DAY\",\n        \"startTime\": \"10:00\",\n        \"endTime\": \"12:00\",\n        \"exceptionDates\": [\"2022-05-23\"]\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/schedules/events/9",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"schedules",
+						"events",
+						"9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE recurring event with exceptions",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"recurring\": {\n        \"startTime\": \"10:00\",\n        \"endTime\": \"12:00\",\n        \"exceptionDates\": [\"2022-05-23\"]\n    },\n    \"removeExceptionDates\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/schedules/events/6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"schedules",
+						"events",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE recurring event only specific date",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"updateSpecificEvent\": {\n        \"date\": \"2022-06-02\",\n        \"startTime\": \"11:15\",\n        \"endTime\": \"12:00\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/schedules/events/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"schedules",
+						"events",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
