@@ -7,13 +7,13 @@ public enum ScheduledEventIntervalType {
     MONTH("months"),
     YEAR("year");
 
-    private String type;
+    private final String type;
 
     public String getStatus() {
         return type;
     }
 
-    private ScheduledEventIntervalType(String type) {
+    ScheduledEventIntervalType(String type) {
         this.type = type;
     }
 }

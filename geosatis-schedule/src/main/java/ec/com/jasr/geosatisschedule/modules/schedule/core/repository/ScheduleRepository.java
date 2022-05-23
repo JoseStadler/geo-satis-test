@@ -32,5 +32,5 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
                             "OR recursive_date.day = 0)" +
                             "OR EXTRACT(DOW FROM recursive_date.repeated_date) = recursive_date.day) " +
                         "AND (se.exception_date IS NULL OR se.exception_date <> DATE(:searchDate))", nativeQuery = true)
-    public Boolean hasScheduledEvent(@Param("scheduleId") Long scheduleId, @Param("searchDate") LocalDateTime searchDate, @Param("toDate") LocalDateTime toDate);
+    Boolean hasScheduledEvent(@Param("scheduleId") Long scheduleId, @Param("searchDate") LocalDateTime searchDate, @Param("toDate") LocalDateTime toDate);
 }

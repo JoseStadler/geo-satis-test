@@ -19,7 +19,7 @@ public class ScheduleService {
     public Schedule getScheduledEvent(Long scheduleId) throws AppException {
         Optional<Schedule> schedule = AppSpringCtx.getBean(ScheduleRepository.class).findById(scheduleId);
 
-        if (schedule.isEmpty()) {
+        if (!schedule.isPresent()) {
             AppUtil.throwError(ScheduleConstants.SCHEDULE_WITH_ID + scheduleId + ScheduleConstants.NOT_FOUND, HttpStatus.NOT_FOUND);
         }
 

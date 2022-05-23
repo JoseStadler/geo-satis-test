@@ -244,7 +244,7 @@ public class ScheduleEventService {
 
     private RecurringScheduledEvent findSavedRecurringEvent(Long id) throws AppException {
         Optional<RecurringScheduledEvent> optionalScheduledEvent = AppSpringCtx.getBean(RecurringScheduledEventRepository.class).findById(id);
-        if (optionalScheduledEvent.isEmpty()) {
+        if (!optionalScheduledEvent.isPresent()) {
             AppUtil.throwError(ScheduledEventConstants.EVENT_WITH_ID + id + ScheduledEventConstants.COULD_NOT_BE_FOUND, HttpStatus.NOT_FOUND);
         }
 
@@ -331,7 +331,7 @@ public class ScheduleEventService {
 
     private ScheduledEvent findSavedRangeEvent(Long id) throws AppException {
         Optional<ScheduledEvent> optionalScheduledEvent = AppSpringCtx.getBean(ScheduleEventRepository.class).findById(id);
-        if (optionalScheduledEvent.isEmpty()) {
+        if (!optionalScheduledEvent.isPresent()) {
             AppUtil.throwError(ScheduledEventConstants.EVENT_WITH_ID + id + ScheduledEventConstants.COULD_NOT_BE_FOUND, HttpStatus.NOT_FOUND);
         }
 

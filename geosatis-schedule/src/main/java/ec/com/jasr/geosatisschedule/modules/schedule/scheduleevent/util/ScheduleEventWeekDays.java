@@ -13,13 +13,13 @@ public enum ScheduleEventWeekDays {
     WEEK_DAY(8),
     WEEKENDS(9);
 
-    private int day;
+    private final int day;
 
     public int getValue() {
         return day;
     }
 
-    private ScheduleEventWeekDays(int day) {
+    ScheduleEventWeekDays(int day) {
         this.day = day;
     }
 
